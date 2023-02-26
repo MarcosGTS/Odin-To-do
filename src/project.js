@@ -21,7 +21,7 @@ function createProject(title, description) {
     /* Return value of complition ranging between (0 - 1) */
 
     if (items.length === 0) return 1;
-    return items.reduce((total, item) => total + item.isComlete(), 0) / items.length;
+    return items.reduce((total, item) => total + item.isComplete(), 0) / items.length;
   }
 
   return {
