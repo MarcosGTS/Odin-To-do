@@ -4,6 +4,14 @@ const createInterfaceManager = () => {
   const addButton = document.querySelector('#add-button');
   const content = document.querySelector('#content');
 
+  function addNewItem() {
+    const data = {
+      title: 'came from interface manager',
+      description: 'placeholder',
+    };
+    publishInterface.publish('add-item', data);
+  }
+
   function render(project) {
     content.innerHTML = '';
     project.getItems().forEach((item) => {
@@ -16,7 +24,7 @@ const createInterfaceManager = () => {
   }
 
   function bindEvents() {
-    addButton.addEventListener('click', () => publishInterface.publish('add-item'));
+    addButton.addEventListener('click', addNewItem);
   }
 
   bindEvents();

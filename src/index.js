@@ -17,8 +17,9 @@ createInterfaceManager();
 const project = createProject();
 
 (() => {
-  function addNewItem() {
-    const newItem = createItem('test');
+  function addNewItem(data) {
+    const { title, description } = data;
+    const newItem = createItem(title, description);
     project.addTodo(newItem);
     publishInterface.publish('render', project);
   }
