@@ -1,10 +1,11 @@
+import publishInterface from './publishInterface';
+
 const createInterfaceManager = () => {
+  const addButton = document.querySelector('#add-button');
   const content = document.querySelector('#content');
-  const publications = {};
 
   function render(project) {
     content.innerHTML = '';
-    console.log(project);
     project.getItems().forEach((item) => {
       const itemTemplate = document.createElement('div');
       itemTemplate.innerHTML = `
@@ -14,27 +15,13 @@ const createInterfaceManager = () => {
     });
   }
 
-  function subscribe(eventName, callback) {
-    if (!publications[eventName]) {
-      publications[eventName] = [];
-    }
-
-    publications[eventName].push(callback);
+  function bindEvents() {
+    addButton.addEventListener('click', () => publishInterface.publish('add-item'));
   }
 
-  function publish(eventName, data) {
-    const subscribers = publications[eventName];
-    if (!subscribers) return;
+  bindEvents();
 
-    subscribers.forEach((subscriber) => subscriber(data));
-  }
-
-  subscribe('render', render);
-
-  return {
-    publish,
-    subscribe,
-  };
+  publishInterface.subscribe('render', render);
 };
 
 export default createInterfaceManager;

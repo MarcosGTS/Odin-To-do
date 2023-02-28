@@ -1,31 +1,27 @@
 import createProject from './project';
 import createItem from './item';
+import publishInterface from './publishInterface';
 import createInterfaceManager from './intefaceManager';
 
 const contentHtml = document.createElement('div');
 contentHtml.id = 'content';
 const addButtonHtml = document.createElement('button');
 addButtonHtml.id = 'add-button';
+addButtonHtml.innerHTML = 'Add item';
 
-document.body.appendChild(contentHtml);
 document.body.appendChild(addButtonHtml);
+document.body.appendChild(contentHtml);
 
-const interfaceManager = createInterfaceManager();
+createInterfaceManager();
+
 const project = createProject();
 
 (() => {
-  const addButton = document.querySelector('#add-button');
-
   function addNewItem() {
     const newItem = createItem('test');
     project.addTodo(newItem);
-
-    interfaceManager.publish('render', project);
+    publishInterface.publish('render', project);
   }
 
-  function bindEvents() {
-    addButton.addEventListener('click', addNewItem);
-  }
-
-  bindEvents();
+  publishInterface.subscribe('add-item', addNewItem);
 })();
