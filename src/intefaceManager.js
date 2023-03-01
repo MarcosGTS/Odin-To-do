@@ -1,8 +1,22 @@
 import publishInterface from './publishInterface';
 
 const createInterfaceManager = () => {
-  const addButton = document.querySelector('#add-button');
+  const addItemButton = document.querySelector('#add-item-button');
+  const addProjectButton = document.querySelector('#add-project-button');
+  const removeProjectButton = document.querySelector('#remove-project-button');
   const content = document.querySelector('#content');
+  const projectsContainer = document.querySelector('#projects-conteiner');
+
+  function addNewProject() {
+    const data = {
+      title: 'came from inter manager',
+    };
+    publishInterface.publish('add-project', data);
+  }
+
+  function removeProject() {
+    publishInterface.publish('remove-project');
+  }
 
   function addNewItem() {
     const data = {
@@ -12,23 +26,78 @@ const createInterfaceManager = () => {
     publishInterface.publish('add-item', data);
   }
 
-  function render(project) {
-    content.innerHTML = '';
-    project.getItems().forEach((item) => {
+  function removeItem(event) {
+    const { target } = event;
+    const itemNode = target.parentNode;
+    const parent = itemNode.parentNode;
+    const itemIndex = [...parent.children].indexOf(itemNode);
+
+    publishInterface.publish('remove-item', itemIndex);
+  }
+
+  function renderItems(project) {
+    function createItemNode(item) {
       const itemTemplate = document.createElement('div');
+
       itemTemplate.innerHTML = `
+        <input type='checkbox'>
         <h3>${item.getTitle()}</h3>
+        <button class="remove-btn">x</button>
       `;
-      content.appendChild(itemTemplate);
+
+      return itemTemplate;
+    }
+
+    project.getItems().forEach((item) => {
+      const newItem = createItemNode(item);
+      content.appendChild(newItem);
+    });
+  }
+
+  function changeProject(event) {
+    const { target } = event;
+    const parent = target.parentNode;
+    const index = [...parent.children].indexOf(target);
+
+    publishInterface.publish('change-project', index);
+  }
+
+  function renderProjects(projects) {
+    function createProjectButton(project) {
+      const projectTemplate = document.createElement('button');
+      projectTemplate.classList.add('project-tab');
+      projectTemplate.innerText = project.getTitle();
+      return projectTemplate;
+    }
+
+    projects.forEach((project) => {
+      const projectNode = createProjectButton(project);
+      projectsContainer.appendChild(projectNode);
     });
   }
 
   function bindEvents() {
-    addButton.addEventListener('click', addNewItem);
+    const closeBtns = [...content.querySelectorAll('.remove-btn')];
+    const projectBtns = [...projectsContainer.querySelectorAll('.project-tab')];
+
+    closeBtns.forEach((btn) => btn.addEventListener('click', removeItem));
+    projectBtns.forEach((btn) => btn.addEventListener('click', changeProject));
   }
 
-  bindEvents();
+  function render(data) {
+    const { currentProject, projects } = data;
 
+    projectsContainer.innerHTML = '';
+    content.innerHTML = '';
+
+    renderItems(currentProject);
+    renderProjects(projects);
+    bindEvents();
+  }
+
+  addItemButton.addEventListener('click', addNewItem);
+  addProjectButton.addEventListener('click', addNewProject);
+  removeProjectButton.addEventListener('click', removeProject);
   publishInterface.subscribe('render', render);
 };
 
