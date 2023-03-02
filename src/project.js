@@ -17,6 +17,10 @@ function createProject(title, description) {
     return items.splice(index, 1);
   }
 
+  function getItem(index) {
+    return items[index];
+  }
+
   function getItems() {
     return [...items];
   }
@@ -31,6 +35,7 @@ function createProject(title, description) {
   return {
     addTodo,
     removeTodo,
+    getItem,
     getItems,
     getTitle,
     getDescription,
