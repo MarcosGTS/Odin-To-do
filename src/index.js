@@ -1,7 +1,9 @@
+import './style.css';
+
 import createProject from './project';
 import createItem from './item';
 import publishInterface from './publishInterface';
-import createInterfaceManager from './intefaceManager';
+import createInterfaceManager from './interfaceManager';
 
 const contentHtml = document.createElement('div');
 contentHtml.id = 'content';
@@ -62,6 +64,12 @@ createInterfaceManager();
     publishInterface.publish('render', { currentProject, projects });
   }
 
+  function toggleItem(data) {
+    const targetItem = currentProject.getItem(data);
+    targetItem.toggleCompletion();
+    publishInterface.publish('render', { currentProject, projects });
+  }
+
   function removeItem(data) {
     currentProject.removeTodo(data);
     publishInterface.publish('render', { currentProject, projects });
@@ -77,4 +85,5 @@ createInterfaceManager();
   publishInterface.subscribe('change-project', changeProject);
   publishInterface.subscribe('add-project', addNewProject);
   publishInterface.subscribe('remove-project', removeProject);
+  publishInterface.subscribe('toggle-item', toggleItem);
 })();
