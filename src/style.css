@@ -58,6 +58,10 @@ body {
   justify-content: space-between;
 }
 
-.item-toggle:checked + * {
+.list-item input[type='radio']:not(:checked) + label p{
+  display: none;
+}
+
+.item-toggle[data-checked="true"] + * {
   text-decoration: line-through;
 }

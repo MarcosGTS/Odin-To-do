@@ -46,29 +46,32 @@ const createInterfaceManager = () => {
   }
 
   function renderItems(project) {
-    function createItemNode(item) {
+    function createItemNode(item, index) {
       const itemTemplate = document.createElement('div');
       itemTemplate.classList.add('list-item');
 
       itemTemplate.innerHTML = `
-        <input type='checkbox' class='item-toggle'
-          ${item.isComplete() ? 'checked' : ''}>
-        <h3>${item.getTitle()}</h3>
-        <button class="remove-btn">x</button>
+        <input type='radio' name='list-item' id='item-${index}'>
+        <label for=item-${index}>
+          <button class='item-toggle' data-checked='${item.isComplete()}'>asdf</button>
+          <h3>${item.getTitle()}</h3>
+          <p>${item.getDescription()}</p>
+          <button class="remove-btn">x</button>
+        </label>
       `;
 
       return itemTemplate;
     }
 
-    project.getItems().forEach((item) => {
-      const newItem = createItemNode(item);
+    project.getItems().forEach((item, index) => {
+      const newItem = createItemNode(item, index);
       content.appendChild(newItem);
     });
   }
 
   function toggleItem(event) {
     const { target } = event;
-    const itemNode = target.parentNode;
+    const itemNode = target.parentNode.parentNode;
     const parent = itemNode.parentNode;
     const itemIndex = [...parent.children].indexOf(itemNode);
 
@@ -109,7 +112,7 @@ const createInterfaceManager = () => {
 
     closeBtns.forEach((btn) => btn.addEventListener('click', removeItem));
     projectBtns.forEach((btn) => btn.addEventListener('click', changeProject));
-    checkboxes.forEach((item) => item.addEventListener('input', toggleItem));
+    checkboxes.forEach((item) => item.addEventListener('click', toggleItem));
   }
 
   function render(data) {
