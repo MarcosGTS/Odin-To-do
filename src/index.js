@@ -5,14 +5,23 @@ import createItem from './item';
 import publishInterface from './publishInterface';
 import createInterfaceManager from './interfaceManager';
 
-const contentHtml = document.createElement('div');
-contentHtml.id = 'content';
+const workspaceHtml = document.createElement('div');
+workspaceHtml.id = 'workspace';
+workspaceHtml.innerHTML = `
+  <h1 id='workspace__title'></h1>
+  <p id='workspace__description'></p>
+  <div id='content'></div>
+  <div>
+    <input id='item-input'>
+    <button id='add-item-button'>Add Item</button>
+  </div>
+`;
 
 const menuHtml = document.createElement('div');
 menuHtml.id = 'menu';
 
 const projectsHtml = document.createElement('div');
-projectsHtml.id = 'projects-conteiner';
+projectsHtml.id = 'menu__projects';
 
 const addProjectButtonHtml = document.createElement('button');
 addProjectButtonHtml.id = 'add-project-button';
@@ -22,17 +31,12 @@ const removeProjectButtonHtml = document.createElement('button');
 removeProjectButtonHtml.id = 'remove-project-button';
 removeProjectButtonHtml.innerText = 'remove project';
 
-const addItemButtonHtml = document.createElement('button');
-addItemButtonHtml.id = 'add-item-button';
-addItemButtonHtml.innerHTML = 'Add item';
-
 document.body.appendChild(menuHtml);
 menuHtml.appendChild(addProjectButtonHtml);
 menuHtml.appendChild(removeProjectButtonHtml);
 menuHtml.appendChild(projectsHtml);
 
-document.body.appendChild(addItemButtonHtml);
-document.body.appendChild(contentHtml);
+document.body.appendChild(workspaceHtml);
 
 createInterfaceManager();
 
@@ -45,7 +49,8 @@ createInterfaceManager();
   function addNewProject(data) {
     const { title } = data;
     const newProject = createProject(title);
-    projects.push(newProject);
+
+    if (title) projects.push(newProject);
 
     publishInterface.publish('render', { currentProject, projects });
   }
@@ -60,7 +65,8 @@ createInterfaceManager();
   function addNewItem(data) {
     const { title, description } = data;
     const newItem = createItem(title, description);
-    currentProject.addTodo(newItem);
+
+    if (title) currentProject.addTodo(newItem);
     publishInterface.publish('render', { currentProject, projects });
   }
 
