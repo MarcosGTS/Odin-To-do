@@ -10,6 +10,7 @@ workspaceHtml.id = 'workspace';
 workspaceHtml.innerHTML = `
   <h1 id='workspace__title'></h1>
   <p id='workspace__description'></p>
+  <button id='workspace__edit-button'>Edit</button>
   <div id='content'></div>
   <div>
     <input id='item-input'>
@@ -28,8 +29,47 @@ menuHtml.innerHTML = `
   <button>Add projects</button>
 `;
 
+const projectEditModal = document.createElement('form');
+projectEditModal.id = 'project-modal';
+projectEditModal.classList.add('modal');
+projectEditModal.innerHTML = `
+  <div>
+    <label for='project-modal-title'>Title:</label>
+    <input id='project-modal-title' type='text'>
+  </div>
+  <div>
+    <label for='project-modal-description'>Description:</label>
+    <textarea id='project-modal-description'></textarea>
+  </div>
+  <div>
+    <button id='project-modal-confirm'>Confirm</button>
+    <button>Cancel</button>
+  </div>
+`;
+
+const itemEditModal = document.createElement('form');
+itemEditModal.id = 'item-modal';
+itemEditModal.classList.add('modal');
+itemEditModal.innerHTML = `
+  <div>
+    <label for='item-modal-title'>Title:</label>
+    <input id='item-modal-title' type='text'>
+  </div>
+  <div>
+    <label for='item-modal-description'>Description:</label>
+    <textarea id='item-modal-description'></textarea>
+  </div>
+  <div>
+    <input type='range' min='0' max='3'>
+  </div>
+  <div>
+    <input type='date'>
+  </div>
+`;
+
 document.body.appendChild(menuHtml);
 document.body.appendChild(workspaceHtml);
+document.body.appendChild(projectEditModal);
 
 createInterfaceManager();
 
@@ -44,6 +84,13 @@ createInterfaceManager();
     const newProject = createProject(title, description);
 
     if (title) projects.push(newProject);
+
+    publishInterface.publish('render', { currentProject, projects });
+  }
+
+  function editProject({ title, description }) {
+    currentProject.setTitle(title);
+    currentProject.setDescription(description);
 
     publishInterface.publish('render', { currentProject, projects });
   }
@@ -81,6 +128,7 @@ createInterfaceManager();
   publishInterface.subscribe('remove-item', removeItem);
   publishInterface.subscribe('change-project', changeProject);
   publishInterface.subscribe('add-project', addNewProject);
+  publishInterface.subscribe('edit-project', editProject);
   publishInterface.subscribe('remove-project', removeProject);
   publishInterface.subscribe('toggle-item', toggleItem);
 })();

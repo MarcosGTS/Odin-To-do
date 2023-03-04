@@ -11,6 +11,12 @@ const createInterfaceManager = () => {
   const projectDescription = workspace.querySelector('#workspace__description');
   const itemInput = workspace.querySelector('#item-input');
   const addItemButton = workspace.querySelector('#add-item-button');
+  const displayProjectModalBtn = workspace.querySelector('#workspace__edit-button');
+
+  const projectModal = document.querySelector('#project-modal');
+  const projectModalTitle = projectModal.querySelector('#project-modal-title');
+  const projectMotalDescription = projectModal.querySelector('#project-modal-description');
+  const projectModalEditBtn = projectModal.querySelector('#project-modal-confirm');
 
   const content = workspace.querySelector('#content');
 
@@ -96,6 +102,23 @@ const createInterfaceManager = () => {
     publishInterface.publish('change-project', itemIndex);
   }
 
+  function loadProjectModal(project) {
+    // modal appear
+    projectModalTitle.value = project.getTitle();
+    projectMotalDescription.innerText = project.getDescription();
+  }
+
+  function editProject(event) {
+    event.preventDefault();
+    const title = projectModalTitle.value;
+    const description = projectMotalDescription.value;
+    const data = {
+      title,
+      description,
+    };
+    publishInterface.publish('edit-project', data);
+  }
+
   function renderProjects(projects) {
     function createProjectButton(project) {
       const projectTemplate = document.createElement('div');
@@ -118,12 +141,13 @@ const createInterfaceManager = () => {
     projectDescription.innerText = project.getDescription();
   }
 
-  function bindEvents() {
+  function bindEvents({ currentProject }) {
     const itemRemoveBtns = [...content.querySelectorAll('.remove-btn')];
     const checkboxes = [...content.querySelectorAll('.item-toggle')];
     const projectBtns = [...projectsContainer.querySelectorAll('.project-tab')];
     const projectTabRemoveBtns = [...projectsContainer.querySelectorAll('.project-tab-remove')];
 
+    displayProjectModalBtn.addEventListener('click', () => loadProjectModal(currentProject));
     itemRemoveBtns.forEach((btn) => btn.addEventListener('click', removeItem));
     checkboxes.forEach((item) => item.addEventListener('click', toggleItem));
     projectBtns.forEach((btn) => btn.addEventListener('click', changeProject));
@@ -140,16 +164,18 @@ const createInterfaceManager = () => {
     renderItems(currentProject);
 
     renderProjects(projects);
-    bindEvents();
+    bindEvents({ currentProject });
   }
 
   function callFuncWithKeyboard(event, callback) {
     if (event.key === 'Enter') callback();
   }
 
+  publishInterface.subscribe('render', render);
+
   addItemButton.addEventListener('click', addNewItem);
   addProjectButton.addEventListener('click', addNewProject);
-  publishInterface.subscribe('render', render);
+  projectModalEditBtn.addEventListener('click', editProject);
 
   workspace.addEventListener('keydown', (e) => callFuncWithKeyboard(e, addNewItem));
   menu.addEventListener('keydown', (e) => callFuncWithKeyboard(e, addNewProject));

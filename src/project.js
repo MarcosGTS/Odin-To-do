@@ -1,12 +1,22 @@
-function createProject(title, description) {
+function createProject(initTitle, initDescription) {
+  let title = initTitle || 'Default';
+  let description = initDescription || '';
   const items = [];
 
   function getTitle() {
-    return title || 'Default';
+    return title;
+  }
+
+  function setTitle(newTitle) {
+    title = newTitle || title;
   }
 
   function getDescription() {
     return description || '';
+  }
+
+  function setDescription(newDescription) {
+    description = newDescription || description;
   }
 
   function addTodo(newTodo) {
@@ -38,7 +48,9 @@ function createProject(title, description) {
     getItem,
     getItems,
     getTitle,
+    setTitle,
     getDescription,
+    setDescription,
     getComplition,
   };
 }
