@@ -20,8 +20,12 @@ workspaceHtml.innerHTML = `
 const menuHtml = document.createElement('div');
 menuHtml.id = 'menu';
 menuHtml.innerHTML = `
-  <button id='add-project-button'>Add projects</button>
   <div id='menu__projects'></div>
+  <div>
+    <input id='project-input'>
+    <button id='add-project-button'>Add Project</button>
+  </div>
+  <button>Add projects</button>
 `;
 
 document.body.appendChild(menuHtml);
@@ -36,8 +40,8 @@ createInterfaceManager();
   publishInterface.publish('render', { currentProject, projects });
 
   function addNewProject(data) {
-    const { title } = data;
-    const newProject = createProject(title);
+    const { title, description } = data;
+    const newProject = createProject(title, description);
 
     if (title) projects.push(newProject);
 

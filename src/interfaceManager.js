@@ -1,7 +1,10 @@
 import publishInterface from './publishInterface';
 
 const createInterfaceManager = () => {
-  const addProjectButton = document.querySelector('#add-project-button');
+  const menu = document.querySelector('#menu');
+  const addProjectButton = menu.querySelector('#add-project-button');
+  const projectInput = menu.querySelector('#project-input');
+  const projectsContainer = menu.querySelector('#menu__projects');
 
   const workspace = document.querySelector('#workspace');
   const projectTitle = workspace.querySelector('#workspace__title');
@@ -10,7 +13,6 @@ const createInterfaceManager = () => {
   const addItemButton = workspace.querySelector('#add-item-button');
 
   const content = workspace.querySelector('#content');
-  const projectsContainer = document.querySelector('#menu__projects');
 
   function getRelativeIndex(node, id = 'content') {
     const parent = node.parentNode;
@@ -72,10 +74,13 @@ const createInterfaceManager = () => {
   }
 
   function addNewProject() {
+    const title = projectInput.value;
     const data = {
-      title: 'came from inter manager',
+      title,
+      description: 'Algum texto descrevendo o projeto',
     };
     publishInterface.publish('add-project', data);
+    projectInput.value = '';
   }
 
   function removeProject(event) {
@@ -138,16 +143,16 @@ const createInterfaceManager = () => {
     bindEvents();
   }
 
-  function addItemWithKeyboard(event, key) {
-    const chosenKey = key || 'Enter';
-    if (event.key === chosenKey) addNewItem();
+  function callFuncWithKeyboard(event, callback) {
+    if (event.key === 'Enter') callback();
   }
 
   addItemButton.addEventListener('click', addNewItem);
   addProjectButton.addEventListener('click', addNewProject);
   publishInterface.subscribe('render', render);
 
-  workspace.addEventListener('keydown', addItemWithKeyboard);
+  workspace.addEventListener('keydown', (e) => callFuncWithKeyboard(e, addNewItem));
+  menu.addEventListener('keydown', (e) => callFuncWithKeyboard(e, addNewProject));
 };
 
 export default createInterfaceManager;
