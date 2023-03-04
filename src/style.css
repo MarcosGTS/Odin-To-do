@@ -55,7 +55,6 @@ body {
 .list-item {
   display: flex;
   align-items: center;  
-  justify-content: space-between;
 }
 
 .list-item input[type='radio']:not(:checked) + label p{

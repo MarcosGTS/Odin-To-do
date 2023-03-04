@@ -13,15 +13,13 @@ const createInterfaceManager = () => {
   const content = workspace.querySelector('#content');
   const projectsContainer = document.querySelector('#menu__projects');
 
-  function addNewProject() {
-    const data = {
-      title: 'came from inter manager',
-    };
-    publishInterface.publish('add-project', data);
-  }
-
-  function removeProject() {
-    publishInterface.publish('remove-project');
+  function getRelativeIndex(node, id = 'content') {
+    const parent = node.parentNode;
+    if (!parent) return -1;
+    if (parent.id === id) {
+      return [...parent.children].indexOf(node);
+    }
+    return getRelativeIndex(parent, id);
   }
 
   function addNewItem() {
@@ -38,11 +36,16 @@ const createInterfaceManager = () => {
 
   function removeItem(event) {
     const { target } = event;
-    const itemNode = target.parentNode;
-    const parent = itemNode.parentNode;
-    const itemIndex = [...parent.children].indexOf(itemNode);
+    const itemIndex = getRelativeIndex(target);
 
     publishInterface.publish('remove-item', itemIndex);
+  }
+
+  function toggleItem(event) {
+    const { target } = event;
+    const itemIndex = getRelativeIndex(target);
+
+    publishInterface.publish('toggle-item', itemIndex);
   }
 
   function renderItems(project) {
@@ -53,7 +56,7 @@ const createInterfaceManager = () => {
       itemTemplate.innerHTML = `
         <input type='radio' name='list-item' id='item-${index}'>
         <label for=item-${index}>
-          <button class='item-toggle' data-checked='${item.isComplete()}'>asdf</button>
+          <button class='item-toggle' data-checked='${item.isComplete()}'>0</button>
           <h3>${item.getTitle()}</h3>
           <p>${item.getDescription()}</p>
           <button class="remove-btn">x</button>
@@ -69,21 +72,22 @@ const createInterfaceManager = () => {
     });
   }
 
-  function toggleItem(event) {
-    const { target } = event;
-    const itemNode = target.parentNode.parentNode;
-    const parent = itemNode.parentNode;
-    const itemIndex = [...parent.children].indexOf(itemNode);
+  function addNewProject() {
+    const data = {
+      title: 'came from inter manager',
+    };
+    publishInterface.publish('add-project', data);
+  }
 
-    publishInterface.publish('toggle-item', itemIndex);
+  function removeProject() {
+    publishInterface.publish('remove-project');
   }
 
   function changeProject(event) {
     const { target } = event;
-    const parent = target.parentNode;
-    const index = [...parent.children].indexOf(target);
+    const itemIndex = getRelativeIndex(target, 'menu__projects');
 
-    publishInterface.publish('change-project', index);
+    publishInterface.publish('change-project', itemIndex);
   }
 
   function renderProjects(projects) {
