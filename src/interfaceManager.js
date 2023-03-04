@@ -2,7 +2,6 @@ import publishInterface from './publishInterface';
 
 const createInterfaceManager = () => {
   const addProjectButton = document.querySelector('#add-project-button');
-  const removeProjectButton = document.querySelector('#remove-project-button');
 
   const workspace = document.querySelector('#workspace');
   const projectTitle = workspace.querySelector('#workspace__title');
@@ -79,8 +78,10 @@ const createInterfaceManager = () => {
     publishInterface.publish('add-project', data);
   }
 
-  function removeProject() {
-    publishInterface.publish('remove-project');
+  function removeProject(event) {
+    const { target } = event;
+    const itemIndex = getRelativeIndex(target, 'menu__projects');
+    publishInterface.publish('remove-project', itemIndex);
   }
 
   function changeProject(event) {
@@ -92,9 +93,12 @@ const createInterfaceManager = () => {
 
   function renderProjects(projects) {
     function createProjectButton(project) {
-      const projectTemplate = document.createElement('button');
+      const projectTemplate = document.createElement('div');
+      projectTemplate.innerHTML = `
+        <span class='project-tab-title'>${project.getTitle()}</span>
+        <button class='project-tab-remove'>x</button>
+      `;
       projectTemplate.classList.add('project-tab');
-      projectTemplate.innerText = project.getTitle();
       return projectTemplate;
     }
 
@@ -110,13 +114,15 @@ const createInterfaceManager = () => {
   }
 
   function bindEvents() {
-    const closeBtns = [...content.querySelectorAll('.remove-btn')];
+    const itemRemoveBtns = [...content.querySelectorAll('.remove-btn')];
     const checkboxes = [...content.querySelectorAll('.item-toggle')];
     const projectBtns = [...projectsContainer.querySelectorAll('.project-tab')];
+    const projectTabRemoveBtns = [...projectsContainer.querySelectorAll('.project-tab-remove')];
 
-    closeBtns.forEach((btn) => btn.addEventListener('click', removeItem));
-    projectBtns.forEach((btn) => btn.addEventListener('click', changeProject));
+    itemRemoveBtns.forEach((btn) => btn.addEventListener('click', removeItem));
     checkboxes.forEach((item) => item.addEventListener('click', toggleItem));
+    projectBtns.forEach((btn) => btn.addEventListener('click', changeProject));
+    projectTabRemoveBtns.forEach((btn) => btn.addEventListener('click', removeProject));
   }
 
   function render(data) {
@@ -139,7 +145,6 @@ const createInterfaceManager = () => {
 
   addItemButton.addEventListener('click', addNewItem);
   addProjectButton.addEventListener('click', addNewProject);
-  removeProjectButton.addEventListener('click', removeProject);
   publishInterface.subscribe('render', render);
 
   workspace.addEventListener('keydown', addItemWithKeyboard);

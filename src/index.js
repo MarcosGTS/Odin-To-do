@@ -19,23 +19,12 @@ workspaceHtml.innerHTML = `
 
 const menuHtml = document.createElement('div');
 menuHtml.id = 'menu';
-
-const projectsHtml = document.createElement('div');
-projectsHtml.id = 'menu__projects';
-
-const addProjectButtonHtml = document.createElement('button');
-addProjectButtonHtml.id = 'add-project-button';
-addProjectButtonHtml.innerText = 'Add project';
-
-const removeProjectButtonHtml = document.createElement('button');
-removeProjectButtonHtml.id = 'remove-project-button';
-removeProjectButtonHtml.innerText = 'remove project';
+menuHtml.innerHTML = `
+  <button id='add-project-button'>Add projects</button>
+  <div id='menu__projects'></div>
+`;
 
 document.body.appendChild(menuHtml);
-menuHtml.appendChild(addProjectButtonHtml);
-menuHtml.appendChild(removeProjectButtonHtml);
-menuHtml.appendChild(projectsHtml);
-
 document.body.appendChild(workspaceHtml);
 
 createInterfaceManager();
@@ -55,10 +44,8 @@ createInterfaceManager();
     publishInterface.publish('render', { currentProject, projects });
   }
 
-  function removeProject() {
-    const currentProjectIndex = projects.indexOf(currentProject);
-    projects.splice(currentProjectIndex, 1);
-
+  function removeProject(projectIndex) {
+    projects.splice(projectIndex, 1);
     publishInterface.publish('render', { currentProject, projects });
   }
 
