@@ -60,16 +60,22 @@ itemEditModal.innerHTML = `
     <textarea id='item-modal-description'></textarea>
   </div>
   <div>
-    <input type='range' min='0' max='3'>
+    <labe for='item-modal-priority'>Priority:</label>
+    <input id='item-modal-priority' type='range' min='0' max='2'>
   </div>
   <div>
-    <input type='date'>
+    <label for='item-modal-duedate'>Due-date:</label>
+    <input id='item-modal-duedate' type='date'>
+  </div>
+  <div>
+    <button id='item-modal-confirm'>Confirm</button>
   </div>
 `;
 
 document.body.appendChild(menuHtml);
 document.body.appendChild(workspaceHtml);
 document.body.appendChild(projectEditModal);
+document.body.appendChild(itemEditModal);
 
 createInterfaceManager();
 
@@ -108,6 +114,24 @@ createInterfaceManager();
     publishInterface.publish('render', { currentProject, projects });
   }
 
+  function editItem(data) {
+    const {
+      itemIndex,
+      title,
+      description,
+      priority,
+      date,
+    } = data;
+
+    const item = currentProject.getItem(itemIndex);
+    item.setTitle(title);
+    item.setDescription(description);
+    item.setPriority(priority);
+    item.setDueDate(date);
+
+    publishInterface.publish('render', { currentProject, projects });
+  }
+
   function toggleItem(data) {
     const targetItem = currentProject.getItem(data);
     targetItem.toggleCompletion();
@@ -125,6 +149,7 @@ createInterfaceManager();
   }
 
   publishInterface.subscribe('add-item', addNewItem);
+  publishInterface.subscribe('edit-item', editItem);
   publishInterface.subscribe('remove-item', removeItem);
   publishInterface.subscribe('change-project', changeProject);
   publishInterface.subscribe('add-project', addNewProject);

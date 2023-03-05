@@ -18,6 +18,13 @@ const createInterfaceManager = () => {
   const projectMotalDescription = projectModal.querySelector('#project-modal-description');
   const projectModalEditBtn = projectModal.querySelector('#project-modal-confirm');
 
+  const itemModal = document.querySelector('#item-modal');
+  const itemModalTitle = itemModal.querySelector('#item-modal-title');
+  const itemModalDescription = itemModal.querySelector('#item-modal-description');
+  const itemModalPriority = itemModal.querySelector('#item-modal-priority');
+  const itemModalDate = itemModal.querySelector('#item-modal-duedate');
+  const itemModalEditBtn = itemModal.querySelector('#item-modal-confirm');
+
   const content = workspace.querySelector('#content');
 
   function getRelativeIndex(node, id = 'content') {
@@ -55,6 +62,34 @@ const createInterfaceManager = () => {
     publishInterface.publish('toggle-item', itemIndex);
   }
 
+  function editItem(event) {
+    event.preventDefault();
+    const itemIndex = itemModal.dataset.index;
+    const title = itemModalTitle.value;
+    const description = itemModalDescription.value;
+    const priority = itemModalPriority.value;
+    const date = itemModalDate.value;
+
+    const data = {
+      itemIndex,
+      title,
+      description,
+      priority,
+      date,
+    };
+    publishInterface.publish('edit-item', data);
+  }
+
+  function loadItemModal(item, index) {
+    itemModal.dataset.index = index;
+    itemModalTitle.value = item.getTitle();
+    itemModalDescription.value = item.getDescription();
+    itemModalPriority.value = 1;
+    itemModalDate.value = '2001-03-27';
+
+    console.log(item.getDescription());
+  }
+
   function renderItems(project) {
     function createItemNode(item, index) {
       const itemTemplate = document.createElement('div');
@@ -67,6 +102,7 @@ const createInterfaceManager = () => {
           <h3>${item.getTitle()}</h3>
           <p>${item.getDescription()}</p>
           <button class="remove-btn">x</button>
+          <button class='edit-btn'>...</button>
         </label>
       `;
 
@@ -105,7 +141,7 @@ const createInterfaceManager = () => {
   function loadProjectModal(project) {
     // modal appear
     projectModalTitle.value = project.getTitle();
-    projectMotalDescription.innerText = project.getDescription();
+    projectMotalDescription.value = project.getDescription();
   }
 
   function editProject(event) {
@@ -143,6 +179,7 @@ const createInterfaceManager = () => {
 
   function bindEvents({ currentProject }) {
     const itemRemoveBtns = [...content.querySelectorAll('.remove-btn')];
+    const itemEditBtns = [...content.querySelectorAll('.edit-btn')];
     const checkboxes = [...content.querySelectorAll('.item-toggle')];
     const projectBtns = [...projectsContainer.querySelectorAll('.project-tab')];
     const projectTabRemoveBtns = [...projectsContainer.querySelectorAll('.project-tab-remove')];
@@ -152,6 +189,11 @@ const createInterfaceManager = () => {
     checkboxes.forEach((item) => item.addEventListener('click', toggleItem));
     projectBtns.forEach((btn) => btn.addEventListener('click', changeProject));
     projectTabRemoveBtns.forEach((btn) => btn.addEventListener('click', removeProject));
+
+    currentProject.getItems().forEach((item, index) => {
+      const button = itemEditBtns[index];
+      button.addEventListener('click', () => loadItemModal(item, index));
+    });
   }
 
   function render(data) {
@@ -174,6 +216,7 @@ const createInterfaceManager = () => {
   publishInterface.subscribe('render', render);
 
   addItemButton.addEventListener('click', addNewItem);
+  itemModalEditBtn.addEventListener('click', editItem);
   addProjectButton.addEventListener('click', addNewProject);
   projectModalEditBtn.addEventListener('click', editProject);
 

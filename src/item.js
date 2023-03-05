@@ -1,6 +1,8 @@
-function createItem(_title, _description, _dueDate, _priority) {
-  let title = _title;
-  let description = _description;
+function createItem(initTitle, initDescription, initPriority, initDueDate) {
+  let title = initTitle;
+  let description = initDescription;
+  let dueDate = initDueDate;
+  let priority = initPriority;
   let complete = false;
 
   function isComplete() {
@@ -23,10 +25,37 @@ function createItem(_title, _description, _dueDate, _priority) {
     return description;
   }
 
+  function setDescription(newDescription) {
+    description = newDescription;
+  }
+
+  function getDuedate() {
+    return dueDate;
+  }
+
+  function setDueDate(newDuedate) {
+    // TO-DO: check valid date
+    dueDate = newDuedate;
+  }
+
+  function getPriority() {
+    return priority;
+  }
+
+  function setPriority(newPriority) {
+    // TO-DO check valid priority range;
+    priority = newPriority;
+  }
+
   return {
     setTitle,
     getTitle,
+    setDescription,
     getDescription,
+    setDueDate,
+    getDuedate,
+    setPriority,
+    getPriority,
     isComplete,
     toggleCompletion,
   };
