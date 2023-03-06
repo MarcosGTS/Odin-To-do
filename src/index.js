@@ -29,10 +29,11 @@ menuHtml.innerHTML = `
   <button>Add projects</button>
 `;
 
-const projectEditModal = document.createElement('form');
-projectEditModal.id = 'project-modal';
-projectEditModal.classList.add('modal');
-projectEditModal.innerHTML = `
+const projectModal = document.createElement('div');
+projectModal.id = 'project-modal-wrapper';
+projectModal.classList.add('modal-wrapper');
+projectModal.innerHTML = `
+<div id='project-modal' class='modal'>
   <div>
     <label for='project-modal-title'>Title:</label>
     <input id='project-modal-title' type='text'>
@@ -43,14 +44,16 @@ projectEditModal.innerHTML = `
   </div>
   <div>
     <button id='project-modal-confirm'>Confirm</button>
-    <button>Cancel</button>
+    <button id='project-modal-cancel'>Cancel</button>
   </div>
+</div>
 `;
 
-const itemEditModal = document.createElement('form');
-itemEditModal.id = 'item-modal';
-itemEditModal.classList.add('modal');
-itemEditModal.innerHTML = `
+const itemModal = document.createElement('div');
+itemModal.id = 'item-modal-wrapper';
+itemModal.classList.add('modal-wrapper');
+itemModal.innerHTML = `
+<div id='item-modal' class='modal'>
   <div>
     <label for='item-modal-title'>Title:</label>
     <input id='item-modal-title' type='text'>
@@ -69,13 +72,15 @@ itemEditModal.innerHTML = `
   </div>
   <div>
     <button id='item-modal-confirm'>Confirm</button>
+    <button id='item-modal-cancel'>Cancel</button>
   </div>
+</div>
 `;
 
 document.body.appendChild(menuHtml);
 document.body.appendChild(workspaceHtml);
-document.body.appendChild(projectEditModal);
-document.body.appendChild(itemEditModal);
+document.body.appendChild(itemModal);
+document.body.appendChild(projectModal);
 
 createInterfaceManager();
 

@@ -64,3 +64,36 @@ body {
 .item-toggle[data-checked="true"] + * {
   text-decoration: line-through;
 }
+
+.modal-wrapper {
+  position: absolute;
+  display: none;
+
+  min-width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-wrapper.show {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.modal {
+  margin: 0 auto;
+  width: 90%;
+  max-width: 400px;
+
+  padding: 1rem 2rem;
+  background-color: white;
+
+  border-radius: 4px;
+}
+
+.modal label,
+.modal input,
+.modal textarea {
+  display: block;
+}

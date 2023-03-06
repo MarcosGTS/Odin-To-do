@@ -13,17 +13,21 @@ const createInterfaceManager = () => {
   const addItemButton = workspace.querySelector('#add-item-button');
   const displayProjectModalBtn = workspace.querySelector('#workspace__edit-button');
 
+  const projectModalWrapper = document.querySelector('#project-modal-wrapper');
   const projectModal = document.querySelector('#project-modal');
   const projectModalTitle = projectModal.querySelector('#project-modal-title');
   const projectMotalDescription = projectModal.querySelector('#project-modal-description');
   const projectModalEditBtn = projectModal.querySelector('#project-modal-confirm');
+  const projectModalCancelBtn = projectModal.querySelector('#project-modal-cancel');
 
+  const itemModalWrapper = document.querySelector('#item-modal-wrapper');
   const itemModal = document.querySelector('#item-modal');
   const itemModalTitle = itemModal.querySelector('#item-modal-title');
   const itemModalDescription = itemModal.querySelector('#item-modal-description');
   const itemModalPriority = itemModal.querySelector('#item-modal-priority');
   const itemModalDate = itemModal.querySelector('#item-modal-duedate');
   const itemModalEditBtn = itemModal.querySelector('#item-modal-confirm');
+  const itemModalCancelBtn = itemModal.querySelector('#item-modal-cancel');
 
   const content = workspace.querySelector('#content');
 
@@ -34,6 +38,14 @@ const createInterfaceManager = () => {
       return [...parent.children].indexOf(node);
     }
     return getRelativeIndex(parent, id);
+  }
+
+  function showModal(modalWrapper) {
+    modalWrapper.classList.add('show');
+  }
+
+  function hiddeModal(modalWrapper) {
+    modalWrapper.classList.remove('show');
   }
 
   function addNewItem() {
@@ -86,8 +98,6 @@ const createInterfaceManager = () => {
     itemModalDescription.value = item.getDescription();
     itemModalPriority.value = 1;
     itemModalDate.value = '2001-03-27';
-
-    console.log(item.getDescription());
   }
 
   function renderItems(project) {
@@ -189,6 +199,7 @@ const createInterfaceManager = () => {
     checkboxes.forEach((item) => item.addEventListener('click', toggleItem));
     projectBtns.forEach((btn) => btn.addEventListener('click', changeProject));
     projectTabRemoveBtns.forEach((btn) => btn.addEventListener('click', removeProject));
+    itemEditBtns.forEach((btn) => btn.addEventListener('click', () => showModal(itemModalWrapper)));
 
     currentProject.getItems().forEach((item, index) => {
       const button = itemEditBtns[index];
@@ -219,6 +230,13 @@ const createInterfaceManager = () => {
   itemModalEditBtn.addEventListener('click', editItem);
   addProjectButton.addEventListener('click', addNewProject);
   projectModalEditBtn.addEventListener('click', editProject);
+
+  itemModalEditBtn.addEventListener('click', () => hiddeModal(itemModalWrapper));
+  itemModalCancelBtn.addEventListener('click', () => hiddeModal(itemModalWrapper));
+
+  displayProjectModalBtn.addEventListener('click', () => showModal(projectModalWrapper));
+  projectModalEditBtn.addEventListener('click', () => hiddeModal(projectModalWrapper));
+  projectModalCancelBtn.addEventListener('click', () => hiddeModal(projectModalWrapper));
 
   workspace.addEventListener('keydown', (e) => callFuncWithKeyboard(e, addNewItem));
   menu.addEventListener('keydown', (e) => callFuncWithKeyboard(e, addNewProject));
