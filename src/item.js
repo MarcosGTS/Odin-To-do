@@ -22,7 +22,7 @@ function createItem(initTitle, initDescription, initPriority, initDueDate) {
   }
 
   function getDescription() {
-    return description;
+    return description || '';
   }
 
   function setDescription(newDescription) {
@@ -30,7 +30,7 @@ function createItem(initTitle, initDescription, initPriority, initDueDate) {
   }
 
   function getDuedate() {
-    return dueDate;
+    return dueDate || '';
   }
 
   function setDueDate(newDuedate) {
@@ -39,7 +39,7 @@ function createItem(initTitle, initDescription, initPriority, initDueDate) {
   }
 
   function getPriority() {
-    return priority;
+    return priority || 0;
   }
 
   function setPriority(newPriority) {

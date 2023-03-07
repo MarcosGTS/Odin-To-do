@@ -88,6 +88,10 @@ createInterfaceManager();
   const projects = [createProject(), createProject('teste')];
   let currentProject = projects[0];
 
+  currentProject.addTodo(createItem('teste'));
+  currentProject.addTodo(createItem('marcos'));
+  currentProject.addTodo(createItem('ir para academia'));
+
   publishInterface.publish('render', { currentProject, projects });
 
   function addNewProject(data) {
