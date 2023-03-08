@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -12,12 +13,17 @@
 
   --toggle-size: 1.5rem;
   --spacing: .5rem;
-  --border: 2px;
+  --border: 8px;
 }
 
 body {
   display: flex;
   background-color: var(--bg-light);
+}
+
+a, 
+button {
+  cursor: pointer;
 }
 
 #menu {
@@ -43,6 +49,41 @@ body {
   max-width: 800px;
   padding: 2rem 4rem;
   margin: 0 auto;
+}
+
+/* Item input section */
+.input-section {
+  display: flex;
+  gap: 1%;
+}
+
+.input-section input {
+  flex: auto;
+  background-color: transparent;
+  border: none;
+  text-align: center;
+
+  padding: 0.5em;
+}
+
+.input-section button {
+  display: none;
+  padding: 0.5em 0.6em;
+  
+  color: white;
+  background-color: #171717;
+
+  border: none;
+  border-radius: var(--border);
+}
+
+#item-input,
+#add-item-button {
+  font-size: 1.2rem;
+}
+
+.input-section input:not(:placeholder-shown) + button {
+  display: inline-block;
 }
 
 .project-info {
@@ -153,8 +194,8 @@ body {
   height:  2rem;
   width:  2rem;
 
-    border: none;
-    border-radius: 8px;
+  border: none;
+  border-radius: 8px;
   transition: all 200ms ease-out;
 }
 
@@ -163,6 +204,45 @@ body {
   color: white;
 }
 
+/* Project tap */
+.project-tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5rem;
+
+  border-radius: var(--border);
+  color: #5f6264;
+}
+
+
+.project-tab.selected {
+  background-color: #DDE0E4;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.project-tab button {
+  opacity: 0;
+  height: 1.2rem;
+  width: 1.2rem;
+
+  border: none;
+  border-radius: 100px;
+
+  color: #DDE0E4;
+  background-color: var(--font-color);
+}
+
+.project-tab:hover button,
+.project-tab.selected button {
+  opacity: 1;
+}
+
+.project-tab,
+.project-tab button {
+  transition: all 200ms ease-out;
+}
 .modal-wrapper {
   position: absolute;
   display: none;

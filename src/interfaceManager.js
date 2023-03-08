@@ -171,14 +171,21 @@ const createInterfaceManager = () => {
     publishInterface.publish('edit-project', data);
   }
 
-  function renderProjects(projects) {
+  function renderProjects(crrProject, projects) {
     function createProjectButton(project) {
       const projectTemplate = document.createElement('div');
+      projectTemplate.classList.add('project-tab');
+
       projectTemplate.innerHTML = `
         <span class='project-tab-title'>${project.getTitle()}</span>
-        <button class='project-tab-remove'>x</button>
+        <button class='project-tab-remove'>
+         <i class='fa-solid fa-xmark'></i>
+        </button>
       `;
-      projectTemplate.classList.add('project-tab');
+
+      if (crrProject === project) {
+        projectTemplate.classList.add('selected');
+      }
       return projectTemplate;
     }
 
@@ -222,8 +229,13 @@ const createInterfaceManager = () => {
     renderWorkspace(currentProject);
     renderItems(currentProject);
 
-    renderProjects(projects);
+    renderProjects(currentProject, projects);
     bindEvents({ currentProject });
+  }
+
+  function cleanField(event, exception) {
+    const { target } = event;
+    if (event.relatedTarget !== exception) target.value = '';
   }
 
   function callFuncWithKeyboard(event, callback) {
@@ -231,6 +243,9 @@ const createInterfaceManager = () => {
   }
 
   publishInterface.subscribe('render', render);
+
+  itemInput.addEventListener('focusout', (e) => cleanField(e, addItemButton));
+  projectInput.addEventListener('focusout', (e) => cleanField(e, addProjectButton));
 
   addItemButton.addEventListener('click', addNewItem);
   itemModalEditBtn.addEventListener('click', editItem);

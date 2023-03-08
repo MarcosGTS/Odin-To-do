@@ -21,9 +21,11 @@ workspaceHtml.innerHTML = `
     <p id='workspace__description'></p>
   </div>
   <div id='content'></div>
-  <div>
-    <input id='item-input'>
-    <button id='add-item-button'>Add Item</button>
+  <div class='input-section'>
+    <input id='item-input' placeholder='Add item'>
+    <button id='add-item-button'>
+      <i class='fa-solid fa-plus'></i>
+    </button>
   </div>
 `;
 
@@ -31,11 +33,12 @@ const menuHtml = document.createElement('div');
 menuHtml.id = 'menu';
 menuHtml.innerHTML = `
   <div id='menu__projects'></div>
-  <div>
-    <input id='project-input'>
-    <button id='add-project-button'>Add Project</button>
+  <div class='input-section'>
+    <input id='project-input' placeholder='Add Project'>
+    <button id='add-project-button'>
+    <i class='fa-solid fa-plus'></i>
+    </button>
   </div>
-  <button>Add projects</button>
 `;
 
 const projectModal = document.createElement('div');
