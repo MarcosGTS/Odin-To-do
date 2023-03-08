@@ -39,7 +39,7 @@ function createItem(initTitle, initDescription, initPriority, initDueDate) {
   }
 
   function getPriority() {
-    return priority || 0;
+    return priority || '0';
   }
 
   function setPriority(newPriority) {

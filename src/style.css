@@ -58,9 +58,7 @@ body {
 .item-content {
   --priority-color: var(--primary-color);
 
-  display: flex;
-  flex-direction: column;
-  
+  display: block;  
   background-color: var(--bg-light);
 
   border-radius: var(--border) 0 0 var(--border);
@@ -135,28 +133,33 @@ body {
   display: flex;
   gap: 0.25rem;
   margin-left : auto;
+
+  opacity: 0;
+  transition: all 200ms ease-out;
 }
 
-button {
-  height: fit-content;
-  width: fit-content;
-}
+.item-content:hover .item-button-section,
+.item-state:checked + .item-content .item-button-section {
+  opacity: 1;
+} 
 
-.edit-btn {
-  margin-left: auto;
-}
-.remove-btn,
-.edit-btn {
+.item-button-section button {
   cursor: pointer;
   font-weight: bold;
+
+  background-color: transparent;
   color: var(--font-color);
 
-  padding: .6rem;
-  border: none;
+  height:  2rem;
+  width:  2rem;
+
+    border: none;
+    border-radius: 8px;
+  transition: all 200ms ease-out;
 }
 
-.remove-btn {
-  background-color: red;
+.item-button-section button:hover {
+  background-color: rgba(0, 0, 0, 0.5);
   color: white;
 }
 

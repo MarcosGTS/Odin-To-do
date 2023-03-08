@@ -96,8 +96,8 @@ const createInterfaceManager = () => {
     itemModal.dataset.index = index;
     itemModalTitle.value = item.getTitle();
     itemModalDescription.value = item.getDescription();
-    itemModalPriority.value = 1;
-    itemModalDate.value = '2001-03-27';
+    itemModalPriority.value = item.getPriority();
+    itemModalDate.value = item.getDuedate();
   }
 
   function renderItems(project) {
@@ -111,8 +111,10 @@ const createInterfaceManager = () => {
           <div class='item-resume'>
             <button class='item-toggle' data-checked='${item.isComplete()}'></button>
             <h3 class='item-title'>${item.getTitle()}</h3>
-            <button class='edit-btn'><i class='fa-solid fa-pen-to-square fa-xl'></i></button>
-            <button class="remove-btn"><i class='fa-solid fa-xmark fa-xl'></i></button>
+            <div class='item-button-section'>
+              <button class='edit-btn'><i class='fa-solid fa-pen-to-square fa-xl'></i></button>
+              <button class="remove-btn"><i class='fa-solid fa-xmark fa-xl'></i></button>
+            </div>
           </div>
           <div class='item-more-info'>
           ${item.getDuedate() ? `<div class='item-date'>${item.getDuedate()}</div>` : ''}
