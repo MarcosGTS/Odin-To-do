@@ -107,20 +107,19 @@ const createInterfaceManager = () => {
 
       itemTemplate.innerHTML = `
         <input type='radio' class='item-state' name='list-item' id='item-${index}'>
-        <label for=item-${index} class='item-content'>
-          <div>
+        <label for=item-${index} class='item-content priority-${item.getPriority()}'>
+          <div class='item-resume'>
             <button class='item-toggle' data-checked='${item.isComplete()}'></button>
-            <h3>${item.getTitle()}</h3>
-            <div>${item.getDuedate()}</div>
-            <button class="remove-btn">X</button>
+            <h3 class='item-title'>${item.getTitle()}</h3>
+            <button class='edit-btn'><i class='fa-solid fa-pen-to-square fa-xl'></i></button>
+            <button class="remove-btn"><i class='fa-solid fa-xmark fa-xl'></i></button>
           </div>
           <div class='item-more-info'>
-            <p>${item.getDescription()}</p>
-            <button class='edit-btn'>Edit</button>
+          ${item.getDuedate() ? `<div class='item-date'>${item.getDuedate()}</div>` : ''}
+          ${item.getDescription() ? `<p class='item-description'>${item.getDescription()}</div>` : ''}
           </div>
         </label>
       `;
-
       return itemTemplate;
     }
 

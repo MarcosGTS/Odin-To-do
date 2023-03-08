@@ -1,5 +1,10 @@
 import './style.css';
 
+import '@fortawesome/fontawesome-free/js/fontawesome';
+import '@fortawesome/fontawesome-free/js/solid';
+import '@fortawesome/fontawesome-free/js/regular';
+import '@fortawesome/fontawesome-free/js/brands';
+
 import createProject from './project';
 import createItem from './item';
 import publishInterface from './publishInterface';
@@ -8,9 +13,13 @@ import createInterfaceManager from './interfaceManager';
 const workspaceHtml = document.createElement('div');
 workspaceHtml.id = 'workspace';
 workspaceHtml.innerHTML = `
-  <h1 id='workspace__title'></h1>
-  <p id='workspace__description'></p>
-  <button id='workspace__edit-button'>Edit</button>
+  <div class='project-info'>
+    <div class='conteiner'>
+    <h1 id='workspace__title'></h1>
+    <button id='workspace__edit-button'><i class='fa-solid fa-pen-to-square fa-xl'></i></button>
+    </div>
+    <p id='workspace__description'></p>
+  </div>
   <div id='content'></div>
   <div>
     <input id='item-input'>
