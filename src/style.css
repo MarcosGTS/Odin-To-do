@@ -268,10 +268,36 @@ button {
   background-color: white;
 
   border-radius: 4px;
+
+  font-size: 1.2rem;
 }
 
-.modal label,
+.modal label {
+  display: inline-block;
+}
+
 .modal input,
 .modal textarea {
-  display: block;
+  width: 100%;
+  padding: .25em .5em;
+}
+
+.modal textarea {
+  resize: vertical;
+  height: 10rem;
+}
+
+.modal button {
+  font-size: inherit;
+  padding: 0.5rem;
+
+  color: white;
+  background-color: var(--font-color);
+
+  border: none;
+  border-radius: var(--border);
+}
+
+.modal > * {
+  margin: 1rem 0;
 }

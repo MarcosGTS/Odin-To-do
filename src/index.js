@@ -64,6 +64,7 @@ projectModal.innerHTML = `
 const itemModal = document.createElement('div');
 itemModal.id = 'item-modal-wrapper';
 itemModal.classList.add('modal-wrapper');
+itemModal.classList.add('show');
 itemModal.innerHTML = `
 <div id='item-modal' class='modal'>
   <div>
