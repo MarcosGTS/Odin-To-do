@@ -44,7 +44,8 @@ const createInterfaceManager = () => {
     modalWrapper.classList.add('show');
   }
 
-  function hiddeModal(modalWrapper) {
+  function hiddeModal(modalWrapper, event) {
+    if (event) event.preventDefault();
     modalWrapper.classList.remove('show');
   }
 
@@ -75,23 +76,25 @@ const createInterfaceManager = () => {
   }
 
   function editItem(event) {
-    event.preventDefault();
-    const itemIndex = itemModal.dataset.index;
-    const title = itemModalTitle.value;
-    const description = itemModalDescription.value;
-    const priority = itemModalPriority.value;
-    const date = itemModalDate.value;
+    if (itemModal.checkValidity()) {
+      event.preventDefault();
+      const itemIndex = itemModal.dataset.index;
+      const title = itemModalTitle.value;
+      const description = itemModalDescription.value;
+      const priority = itemModalPriority.value;
+      const date = itemModalDate.value;
 
-    const data = {
-      itemIndex,
-      title,
-      description,
-      priority,
-      date,
-    };
-    publishInterface.publish('edit-item', data);
+      const data = {
+        itemIndex,
+        title,
+        description,
+        priority,
+        date,
+      };
+      publishInterface.publish('edit-item', data);
+      hiddeModal(itemModalWrapper);
+    }
   }
-
   function loadItemModal(item, index) {
     itemModal.dataset.index = index;
     itemModalTitle.value = item.getTitle();
@@ -161,14 +164,18 @@ const createInterfaceManager = () => {
   }
 
   function editProject(event) {
-    event.preventDefault();
-    const title = projectModalTitle.value;
-    const description = projectMotalDescription.value;
-    const data = {
-      title,
-      description,
-    };
-    publishInterface.publish('edit-project', data);
+    if (projectModal.checkValidity()) {
+      event.preventDefault();
+      const title = projectModalTitle.value;
+      const description = projectMotalDescription.value;
+      const data = {
+        title,
+        description,
+      };
+      publishInterface.publish('edit-project', data);
+
+      hiddeModal(projectModalWrapper);
+    }
   }
 
   function renderProjects(crrProject, projects) {
@@ -252,12 +259,10 @@ const createInterfaceManager = () => {
   addProjectButton.addEventListener('click', addNewProject);
   projectModalEditBtn.addEventListener('click', editProject);
 
-  itemModalEditBtn.addEventListener('click', () => hiddeModal(itemModalWrapper));
-  itemModalCancelBtn.addEventListener('click', () => hiddeModal(itemModalWrapper));
+  itemModalCancelBtn.addEventListener('click', (e) => hiddeModal(itemModalWrapper, e));
 
   displayProjectModalBtn.addEventListener('click', () => showModal(projectModalWrapper));
-  projectModalEditBtn.addEventListener('click', () => hiddeModal(projectModalWrapper));
-  projectModalCancelBtn.addEventListener('click', () => hiddeModal(projectModalWrapper));
+  projectModalCancelBtn.addEventListener('click', (e) => hiddeModal(projectModalWrapper, e));
 
   workspace.addEventListener('keydown', (e) => callFuncWithKeyboard(e, addNewItem));
   menu.addEventListener('keydown', (e) => callFuncWithKeyboard(e, addNewProject));

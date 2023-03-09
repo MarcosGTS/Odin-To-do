@@ -45,49 +45,50 @@ const projectModal = document.createElement('div');
 projectModal.id = 'project-modal-wrapper';
 projectModal.classList.add('modal-wrapper');
 projectModal.innerHTML = `
-<div id='project-modal' class='modal'>
+<form id='project-modal' class='modal'>
   <div>
     <label for='project-modal-title'>Title:</label>
-    <input id='project-modal-title' type='text'>
+    <input id='project-modal-title' type='text' name='project-title' required>
   </div>
   <div>
     <label for='project-modal-description'>Description:</label>
-    <textarea id='project-modal-description'></textarea>
+    <textarea id='project-modal-description' name='project-description'></textarea>
   </div>
   <div>
     <button id='project-modal-confirm'>Confirm</button>
     <button id='project-modal-cancel'>Cancel</button>
   </div>
-</div>
+</form>
 `;
 
 const itemModal = document.createElement('div');
 itemModal.id = 'item-modal-wrapper';
 itemModal.classList.add('modal-wrapper');
-itemModal.classList.add('show');
 itemModal.innerHTML = `
-<div id='item-modal' class='modal'>
+<form id='item-modal' class='modal'>
   <div>
     <label for='item-modal-title'>Title:</label>
-    <input id='item-modal-title' type='text'>
+    <input id='item-modal-title' type='text' name='item-title' required>
   </div>
   <div>
     <label for='item-modal-description'>Description:</label>
-    <textarea id='item-modal-description'></textarea>
+    <textarea id='item-modal-description' name='item-description'></textarea>
   </div>
   <div>
     <labe for='item-modal-priority'>Priority:</label>
-    <input id='item-modal-priority' type='range' min='0' max='2'>
+    <input id='item-modal-priority' 
+     name='item-priority'
+     type='range' min='0' max='2'>
   </div>
   <div>
     <label for='item-modal-duedate'>Due-date:</label>
-    <input id='item-modal-duedate' type='date'>
+    <input id='item-modal-duedate' name='item-duedate' type='date'>
   </div>
   <div>
     <button id='item-modal-confirm'>Confirm</button>
     <button id='item-modal-cancel'>Cancel</button>
   </div>
-</div>
+</form>
 `;
 
 document.body.appendChild(menuHtml);
