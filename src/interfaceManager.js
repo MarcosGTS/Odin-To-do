@@ -117,7 +117,7 @@ const createInterfaceManager = () => {
             </div>
           </div>
           <div class='item-more-info'>
-          ${item.getDuedate() ? `<div class='item-date'>${item.getDuedate()}</div>` : ''}
+          ${item.getFormatedDate() ? `<div class='item-date'>${item.getFormatedDate()}</div>` : ''}
           ${item.getDescription() ? `<p class='item-description'>${item.getDescription()}</div>` : ''}
           </div>
         </label>

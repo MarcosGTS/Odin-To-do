@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 function createItem(initTitle, initDescription, initPriority, initDueDate) {
   let title = initTitle;
   let description = initDescription;
@@ -33,6 +35,13 @@ function createItem(initTitle, initDescription, initPriority, initDueDate) {
     return dueDate || '';
   }
 
+  function getFormatedDate() {
+    if (!dueDate) return '';
+    const [year, month, day] = dueDate.split('-');
+
+    return format(new Date(year, month, day), 'dd MMM yyy');
+  }
+
   function setDueDate(newDuedate) {
     // TO-DO: check valid date
     dueDate = newDuedate;
@@ -54,6 +63,7 @@ function createItem(initTitle, initDescription, initPriority, initDueDate) {
     getDescription,
     setDueDate,
     getDuedate,
+    getFormatedDate,
     setPriority,
     getPriority,
     isComplete,
