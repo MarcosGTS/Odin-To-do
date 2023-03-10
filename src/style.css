@@ -184,6 +184,7 @@ button {
   opacity: 1;
 } 
 
+.conteiner button,
 .item-button-section button {
   cursor: pointer;
   font-weight: bold;
@@ -199,6 +200,7 @@ button {
   transition: all 200ms ease-out;
 }
 
+.conteiner button:hover,
 .item-button-section button:hover {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;

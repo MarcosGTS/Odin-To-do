@@ -53,7 +53,6 @@ const createInterfaceManager = () => {
     const title = itemInput.value;
     const data = {
       title,
-      description: 'placeholder',
     };
 
     publishInterface.publish('add-item', data);

@@ -9,6 +9,7 @@ import createProject from './project';
 import createItem from './item';
 import publishInterface from './publishInterface';
 import createInterfaceManager from './interfaceManager';
+import { saveProjects, loadProjects } from './persistence';
 
 const workspaceHtml = document.createElement('div');
 workspaceHtml.id = 'workspace';
@@ -99,12 +100,11 @@ document.body.appendChild(projectModal);
 createInterfaceManager();
 
 (() => {
-  const projects = [createProject(), createProject('teste')];
-  let currentProject = projects[0];
+  const defaultProjects = [createProject(), createProject('teste')];
+  const memoryProjects = loadProjects();
 
-  currentProject.addTodo(createItem('teste'));
-  currentProject.addTodo(createItem('marcos'));
-  currentProject.addTodo(createItem('ir para academia'));
+  const projects = memoryProjects.length === 0 ? defaultProjects : memoryProjects;
+  let currentProject = projects[0];
 
   publishInterface.publish('render', { currentProject, projects });
 
@@ -135,6 +135,8 @@ createInterfaceManager();
 
     if (title) currentProject.addTodo(newItem);
     publishInterface.publish('render', { currentProject, projects });
+
+    saveProjects(projects);
   }
 
   function editItem(data) {
