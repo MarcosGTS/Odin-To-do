@@ -92,10 +92,23 @@ itemModal.innerHTML = `
 </form>
 `;
 
-document.body.appendChild(menuHtml);
-document.body.appendChild(workspaceHtml);
-document.body.appendChild(itemModal);
-document.body.appendChild(projectModal);
+const footer = document.createElement('footer');
+footer.innerHTML = `
+  <a href="https://github.com/MarcosGTS/" target="_blank">
+    Created by MarcosGTS 2023
+    <i class='fa-brands fa-github'></i>
+  </a>
+`;
+
+const mainContent = document.createElement('main');
+mainContent.id = 'main-content';
+mainContent.appendChild(menuHtml);
+mainContent.appendChild(workspaceHtml);
+mainContent.appendChild(itemModal);
+mainContent.appendChild(projectModal);
+
+document.body.appendChild(mainContent);
+document.body.appendChild(footer);
 
 createInterfaceManager();
 

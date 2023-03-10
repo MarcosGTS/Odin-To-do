@@ -16,20 +16,29 @@
   --border: 8px;
 }
 
-body {
-  display: flex;
-  background-color: var(--bg-light);
-}
-
 a, 
 button {
   cursor: pointer;
 }
 
-#menu {
+footer {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  background-color: var(--font-color);
+  padding: 1rem 0;
+}
 
+footer a {
+  color: white;
+  text-decoration: none;
+}
+
+#main-content {
+  display: flex;
+  background-color: var(--bg-light);
+}
+
+#menu {
   min-width: 15rem;
   min-height: 100vh;
   padding: 1rem 2rem;
