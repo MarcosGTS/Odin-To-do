@@ -115,6 +115,7 @@ createInterfaceManager();
     if (title) projects.push(newProject);
 
     publishInterface.publish('render', { currentProject, projects });
+    saveProjects(projects);
   }
 
   function editProject({ title, description }) {
@@ -122,11 +123,13 @@ createInterfaceManager();
     currentProject.setDescription(description);
 
     publishInterface.publish('render', { currentProject, projects });
+    saveProjects(projects);
   }
 
   function removeProject(projectIndex) {
     projects.splice(projectIndex, 1);
     publishInterface.publish('render', { currentProject, projects });
+    saveProjects(projects);
   }
 
   function addNewItem(data) {
@@ -135,7 +138,6 @@ createInterfaceManager();
 
     if (title) currentProject.addTodo(newItem);
     publishInterface.publish('render', { currentProject, projects });
-
     saveProjects(projects);
   }
 
@@ -155,17 +157,20 @@ createInterfaceManager();
     item.setDueDate(date);
 
     publishInterface.publish('render', { currentProject, projects });
+    saveProjects(projects);
   }
 
   function toggleItem(data) {
     const targetItem = currentProject.getItem(data);
     targetItem.toggleCompletion();
     publishInterface.publish('render', { currentProject, projects });
+    saveProjects(projects);
   }
 
   function removeItem(data) {
     currentProject.removeTodo(data);
     publishInterface.publish('render', { currentProject, projects });
+    saveProjects(projects);
   }
 
   function changeProject(data) {

@@ -137,7 +137,6 @@ const createInterfaceManager = () => {
     const title = projectInput.value;
     const data = {
       title,
-      description: 'Algum texto descrevendo o projeto',
     };
     publishInterface.publish('add-project', data);
     projectInput.value = '';

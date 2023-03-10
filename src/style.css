@@ -41,7 +41,7 @@ button {
   display: flex;
   flex-direction: column;
 
-  margin-top: 2rem;
+  margin: 1rem 0;
 }
 
 #workspace {
@@ -88,6 +88,7 @@ button {
 
 .project-info {
   max-width: 400px;
+  margin-bottom: 1rem;
 }
 
 .conteiner {
