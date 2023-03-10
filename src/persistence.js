@@ -24,7 +24,7 @@ function decodeProject(projectJson) {
 }
 
 function loadProjects() {
-  const projects = localStorage.getItem('projects') || [];
+  const projects = localStorage.getItem('projects') || '[]';
   const decodedProjects = JSON.parse(projects).map((project) => decodeProject(project));
 
   return decodedProjects;
